@@ -28,11 +28,11 @@ public class TransactionControllerTest {
 	@Autowired
 	private WalletService walletService;
 
-	User userOne;
+	private User userOne;
 	User userTwo;
-	UserTransaction user1TransactionOne;
-	UserTransaction user1TransactionTwo;
-	Wallet walletNonUniqueTransaction = null;
+	private UserTransaction user1TransactionOne;
+	private UserTransaction user1TransactionTwo;
+	private Wallet walletNonUniqueTransaction = null;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -48,10 +48,9 @@ public class TransactionControllerTest {
 		assertNotNull(dbWallet);
 		dbWallet.setBalance(dbWallet.getBalance().add(user1TransactionOne.getAmount()));
 		dbWallet = walletService.createTransaction(user1TransactionOne, dbWallet);
-		walletService.removeWallets();
 		assertNotNull(dbWallet);
 		assertEquals(dbWallet.getBalance(), new BigDecimal(110.00));
-
+		walletService.removeWallets();
 	}
 
 	@Test
@@ -64,10 +63,9 @@ public class TransactionControllerTest {
 		assertNotNull(dbWallet);
 		dbWallet.setBalance(dbWallet.getBalance().add(user1TransactionTwo.getAmount()));
 		dbWallet = walletService.createTransaction(user1TransactionTwo, dbWallet);
-		walletService.removeWallets();
 		assertNotNull(dbWallet);
 		assertEquals(dbWallet.getBalance(), dbWallet.getBalance());
-
+		walletService.removeWallets();
 	}
 
 	@Test
@@ -82,10 +80,9 @@ public class TransactionControllerTest {
 		Throwable exception = assertThrows(WalletException.class, () -> {
 			walletService.createTransaction(user1TransactionOne, walletNonUniqueTransaction);
 		});
-		walletService.removeWallets();
 		assertEquals("Transaction Id tran1 Already present, Please create with new Transaction Id",
 				exception.getMessage());
-
+		walletService.removeWallets();
 	}
 
 	@Test
@@ -100,11 +97,10 @@ public class TransactionControllerTest {
 		Throwable exception = assertThrows(WalletException.class, () -> {
 			walletService.createTransaction(user1TransactionOne, walletNonUniqueTransaction);
 		});
-		walletService.removeWallets();
 		assertEquals("Transaction Id tran1 Already present, Please create with new Transaction Id",
 				exception.getMessage());
-
-	}
+		walletService.removeWallets();
+	}	
 
 	@Test
 	void testGetAllTransactions() throws WalletException {
@@ -118,10 +114,9 @@ public class TransactionControllerTest {
 		dbWallet.setBalance(dbWallet.getBalance().subtract(user1TransactionOne.getAmount()));
 		dbWallet = walletService.createTransaction(user1TransactionTwo, dbWallet);
 		List<Transaction> transactions = walletService.getTransactionsByUserId(dbWallet.getUserId());
-		walletService.removeWallets();
 		assertNotNull(transactions);
 		assertEquals(3, transactions.size());
-
+		walletService.removeWallets();
 	}
 
 }

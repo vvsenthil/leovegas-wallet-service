@@ -28,12 +28,12 @@ public class WalletControllerTest {
 	@Autowired
 	private WalletService walletService;
 
-	Transaction transactionOne;
-	Transaction transactionTwo;
-	Wallet walletOne;
-	Wallet walletTwo;
-	User userOne;
-	User userTwo;
+	private Transaction transactionOne;
+	private Transaction transactionTwo;
+	private Wallet walletOne;
+	private Wallet walletTwo;
+	private User userOne;
+	private User userTwo;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -50,18 +50,17 @@ public class WalletControllerTest {
 	@Test
 	void testCreateWallet_1() throws Exception {
 		Wallet dbWallet = walletService.createWallet(userOne);
-		walletService.removeWallets();
 		assertNotNull(dbWallet);
 		assertEquals(walletOne.getUserId(), dbWallet.getUserId());
-
+		walletService.removeWallets();
 	}
 
 	@Test
 	void testCreateWallet_2() throws Exception {
 		Wallet dbWallet = walletService.createWallet(userTwo);
-		walletService.removeWallets();
 		assertNotNull(dbWallet);
 		assertEquals(walletTwo.getUserId(), dbWallet.getUserId());
+		walletService.removeWallets();
 	}
 
 	@Test
@@ -71,19 +70,17 @@ public class WalletControllerTest {
 		Throwable exception = assertThrows(WalletException.class, () -> {
 			walletService.createWallet(userOne);
 		});
-		walletService.removeWallets();
 		assertEquals("User Id user1 Already present, Please create with new user Id", exception.getMessage());
-
+		walletService.removeWallets();
 	}
 
 	@Test
 	void testGetWallet() throws Exception {
 		walletService.createWallet(userOne);
 		Wallet dbWallet = walletService.findByUserId("user1");
-		walletService.removeWallets();
 		assertNotNull(dbWallet);
 		assertEquals(walletOne.getUserId(), dbWallet.getUserId());
-
+		walletService.removeWallets();
 	}
 
 	@Test
@@ -91,10 +88,9 @@ public class WalletControllerTest {
 		walletService.createWallet(userOne);
 		walletService.createWallet(userTwo);
 		List<Wallet> wallets = walletService.getWallets();
-		walletService.removeWallets();
 		assertNotNull(wallets);
 		assertEquals(wallets.size(), 2);
-
+		walletService.removeWallets();
 	}
 
 }

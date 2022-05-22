@@ -20,5 +20,5 @@ public interface WalletService {
 
 	public List<Wallet> getWallets();
 
-	void removeWallets();
+	public void removeWallets();
 }
