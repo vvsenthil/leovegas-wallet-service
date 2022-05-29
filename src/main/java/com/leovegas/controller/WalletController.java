@@ -46,7 +46,7 @@ public class WalletController {
 	public List<Transaction> getAllTransactions(@PathVariable("userId") String userId) throws WalletException {
 		logger.debug("Called WalletController.getAllTransactions with parameter userId={}", userId);
 		return walletService.getTransactionsByUserId(userId);
-	}
+	}   
 
 	/*
 	 * To retrieve all available wallets from the system
