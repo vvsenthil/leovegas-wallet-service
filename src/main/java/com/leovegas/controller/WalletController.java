@@ -1,5 +1,6 @@
 package com.leovegas.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -95,6 +96,7 @@ public class WalletController {
 		logger.debug(
 				"Called WalletController.createWallet() with user information and user id is : " + user.getUserId());
 		user.setTransactionType(TransactionType.CREDIT.name());
+		user.setBalance(user.getBalance()==null ? new BigDecimal(0): user.getBalance());
 		Wallet createdUser = walletService.createWallet(user);
 		return createdUser;
 	}
